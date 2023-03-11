@@ -1,0 +1,18 @@
+//By Yujing
+//724. Find Pivot Index
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        int i, pivot=0, lsum=0, rsum=0;
+        for(i=1 ; i < nums.size() ; i++)
+            rsum += nums[i];
+        if(rsum==0) return pivot;
+        for(i=1 ; i < nums.size() ; i++){
+            pivot = i;
+            lsum += nums[i-1];
+            rsum -= nums[i];
+            if(lsum==rsum) return pivot;
+        }
+        return -1;
+    }
+};
