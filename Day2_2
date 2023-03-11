@@ -1,0 +1,22 @@
+//By Yujing
+//392. Is Subsequence
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        //從t裡面挑出s的字組成新字串tprime, 再用s.compare(tprime)
+        char tprime[101] = {};
+        int sptr=0, tptr=0;
+        for(int i=0 ; i<t.length() ; i++){
+            if(t[i] == s[sptr]){
+                tprime[tptr] = t[i];
+                sptr += 1;
+                tptr += 1;
+            }
+        }
+        //tprime[tptr] = '\0';
+        //printf("s = %s, tprime = %s\n", s.c_str(), tprime);
+        //printf("compare = %d\n", s.compare(tprime));
+        if(s.compare(tprime) == 0) return true;
+        else return false;
+    }
+};
