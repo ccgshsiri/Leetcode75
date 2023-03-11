@@ -1,0 +1,49 @@
+// By Yujing
+// 21. Merge Two Sorted Lists
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *merge = new ListNode(), *ptr1=list1, *ptr2=list2;
+        ListNode *head = merge;
+        if(ptr1==NULL && ptr2==NULL) return NULL;
+        else if(ptr1==NULL && ptr2!=NULL) return list2;
+        else if(ptr1!=NULL && ptr2==NULL) return list1;
+        while(ptr1!=NULL || ptr2!=NULL){
+            //需要注意ptr1或ptr2有一個會先指到NULL就沒辦法比較了
+            if((ptr2==NULL) || (ptr1!=NULL) && (ptr1->val <= ptr2->val)){
+                merge->next = ptr1;
+                ptr1 = ptr1->next;
+                merge = merge->next;
+                merge->next = NULL;
+            }
+            else{
+                merge->next = ptr2;
+                ptr2 = ptr2->next;
+                merge = merge->next;
+                merge->next = NULL;
+            }
+        }
+        return head->next;
+    }
+};
+/*
+1. 不要在 oj 上面直接測試，有指標的東西需要在自己平台上測試，自己的環境裡也需要熟悉指標錯誤的偵測工具
+2. 所以你需要寫好其他支援的函式
+3. 做兩個簡單的串列，不想配置/釋放的話就直接用變數做，離開 scope 時區域變數會自動解構
+4. list1, list2, merge 指到三個 ListNode 結構，作為三個 list 的頭，所以一開始的時候 ptr1=list1->next; ptr2=list2->next;
+5. head 只是保存配置的 list head 的指標
+6. 隨時注意指標是 NULL (0) 的時候不可以 dereference, 也就是說 ptr=0; 時執行到 ptr->val， ptr->next，*ptr 都會讓程式直接當掉 illegal memory access 或是 null pointer 或是 segmentation fault 或是 runtime error: member access within null pointer of type 'ListNode' 
+7. 所以一定要加 (ptr2==NULL) 的檢測，如果為 NULL 的時候直接跳過後面 (ptr1!=NULL)&&((ptr1->val <= ptr2->val)) 的檢測，如果不是 NULL 的時候，先檢查 ptr1!=NULL 才能夠做 ((ptr1->val <= ptr2->val) 的檢測，沒有留心 ptr1, ptr2 是不是 NULL 的話，隨著資料不一樣程式會一直當掉，C++ 裡面 NULL 就是 0
+8. main 裡面自己配置 new 的記憶體記得釋放(delete)掉
+9. 通常傳進函式 mergeTwoLists 的串列不應該修改，這是通常會避免的方式，記憶體的管理複雜度會比較高，至於這個題目怎麼要求的，要看清楚
+*/
