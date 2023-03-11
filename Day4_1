@@ -1,0 +1,37 @@
+// By Yujing
+// 876. Middle of the Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        //計算Node數量
+        ListNode *ptr = head;
+        int n = 1, i;
+        while(ptr->next != NULL){
+            ptr = ptr->next;
+            n += 1;
+            //printf("n = %d\n", n);
+        }
+        //將前面n/2個Node刪除
+        //printf("(n+1)/2 = %d\n", (n+1)/2);
+        i = n;
+        while(i > (n+1)/2){
+            //printf("i = %d\n", i);
+            //ptr = head;
+            head = head->next;
+            //ptr->next = NULL;
+            //delete(ptr);
+            i -= 1;
+        }
+        return head;
+    }
+};
