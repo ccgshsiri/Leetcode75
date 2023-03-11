@@ -1,0 +1,20 @@
+//By Yujing
+//205. Isomorphic Strings
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        //stable 紀錄 s[i] 對應 t[i] 的字, ttable 紀錄 t[i] 被 s[i] 對應
+        int stable[95] = {0}, ttable[95] = {0};
+        for(int i=0 ; i<s.length() ; i++){
+            if(stable[s[i]-32]==0 && ttable[t[i]-32]==0){
+                stable[s[i]-32] = t[i];
+                ttable[t[i]-32] = s[i];
+            }
+            //同一個 s[i] 對應兩個 t[i]
+            if(stable[s[i]-32]!=0 && t[i]!=stable[s[i]-32]) return false;
+            //兩個 s[i] 對應同一個 t[i]
+            if(ttable[t[i]-32]!=0 && s[i]!=ttable[t[i]-32]) return false;
+        }
+        return true;
+    }
+};
